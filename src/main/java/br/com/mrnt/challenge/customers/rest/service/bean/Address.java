@@ -27,7 +27,7 @@ public class Address extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String postalCode;
 
@@ -45,13 +45,23 @@ public class Address extends AuditModel {
 
 	@Size(max = 255)
 	private String complement;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="customer_id", nullable = false)
+	@JoinColumn(name = "customer_id", nullable = false)
 	@JsonIgnore
 	private Customer customer;
 
 	public Address() {
+	}
+
+	public Address(String postalCode, String district, String neighborhood, String city, String federalState,
+			String complement) {
+		this.postalCode = postalCode;
+		this.district = district;
+		this.neighborhood = neighborhood;
+		this.city = city;
+		this.federalState = federalState;
+		this.complement = complement;
 	}
 
 	public Long getId() {
@@ -121,7 +131,5 @@ public class Address extends AuditModel {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 
 }

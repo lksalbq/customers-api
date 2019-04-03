@@ -30,12 +30,12 @@ public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	@GetMapping("/customers")
+	@GetMapping("/api/customers")
 	public Page<Customer> retrieveAllCustomers(Pageable pageable) {
 		return customerRepository.findAll(pageable);
 	}
 
-	@GetMapping("/customers/{id}")
+	@GetMapping("/api/customers/{id}")
 	public Customer retrieveCustomer(@PathVariable long id) {
 		Optional<Customer> customer = customerRepository.findById(id);
 
@@ -45,7 +45,7 @@ public class CustomerController {
 		return customer.get();
 	}
 
-	@DeleteMapping("/customers/{id}")
+	@DeleteMapping("/api/customers/{id}")
 	public ResponseEntity<Object> deleteCustomer(@PathVariable long id) {
 		return customerRepository.findById(id).map(customer -> {
 			customerRepository.delete(customer);
@@ -53,7 +53,7 @@ public class CustomerController {
 		}).orElseThrow(() -> new ResourceNotFoundException("Customer " + id + " not found"));
 	}
 
-	@PostMapping("/customers")
+	@PostMapping("/api/customers")
 	public Customer createCustomer(@Valid @RequestBody Customer customer) {
 		customer.getAddress().setCustomer(customer);
 		customer.getEmails().forEach((email) -> email.setCustomer(customer));
@@ -62,7 +62,7 @@ public class CustomerController {
 
 	}
 
-	@PutMapping("/customers/{id}")
+	@PutMapping("/api/customers/{id}")
 	public Customer updateCustomer(@Valid @RequestBody Customer customerRequest, @PathVariable Long id) {
 		return customerRepository.findById(id).map(customer -> {
 			customer.setName(customerRequest.getName());

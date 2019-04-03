@@ -16,7 +16,7 @@ import br.com.mrnt.challenge.customers.rest.service.support.AuditModel;
 
 @Entity
 @Table(name = "emails")
-public class Email extends AuditModel{
+public class Email extends AuditModel {
 	/**
 	 * 
 	 */
@@ -35,6 +35,10 @@ public class Email extends AuditModel{
 	private Customer customer;
 
 	public Email() {
+	};
+
+	public Email(String address) {
+		this.address = address;
 	};
 
 	public String getAddress() {

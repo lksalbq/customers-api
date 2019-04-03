@@ -17,7 +17,7 @@ import br.com.mrnt.challenge.customers.rest.service.support.AuditModel;
 
 @Entity
 @Table(name = "phones")
-public class Phone extends AuditModel{
+public class Phone extends AuditModel {
 	/**
 	 * 
 	 */
@@ -26,23 +26,26 @@ public class Phone extends AuditModel{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
-    private PhoneType phoneType;
-	
+	private PhoneType phoneType;
+
 	@NotNull
 	private String number;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+	@JoinColumn(name = "customer_id", nullable = false)
 	@JsonIgnore
 	private Customer customer;
 
-	
 	public Phone() {
 	};
 
+	public Phone(String number, PhoneType phoneType) {
+		this.number = number;
+		this.phoneType = phoneType;
+	};
 
 	public String getNumber() {
 		return number;
@@ -79,7 +82,5 @@ public class Phone extends AuditModel{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 
 }

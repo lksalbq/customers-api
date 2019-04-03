@@ -44,7 +44,7 @@ public class Customer extends AuditModel {
 	private String cpf;
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "customer")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
 	private Address address = new Address();
 
 	@NotNull
@@ -53,10 +53,18 @@ public class Customer extends AuditModel {
 
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
-	@Size(min=1)
+	@Size(min = 1)
 	private Set<Email> emails = new HashSet<>();
 
 	public Customer() {
+	}
+
+	public Customer(String name, String cpf, Address address, Set<Phone> phones, Set<Email> emails) {
+		this.name = name;
+		this.cpf = cpf;
+		this.address = address;
+		this.phones = phones;
+		this.emails = emails;
 	}
 
 	public Long getId() {
