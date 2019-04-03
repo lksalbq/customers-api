@@ -1,4 +1,4 @@
-package br.com.mrnt.challenge;
+package br.com.mrnt.challenge.customers.rest.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

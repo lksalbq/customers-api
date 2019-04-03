@@ -55,6 +55,9 @@ public class CustomerController {
 
 	@PostMapping("/customers")
 	public Customer createCustomer(@Valid @RequestBody Customer customer) {
+		customer.getAddress().setCustomer(customer);
+		customer.getEmails().forEach((email) -> email.setCustomer(customer));
+		customer.getPhones().forEach((phone) -> phone.setCustomer(customer));
 		return customerRepository.save(customer);
 
 	}
@@ -64,6 +67,9 @@ public class CustomerController {
 		return customerRepository.findById(id).map(customer -> {
 			customer.setName(customerRequest.getName());
 			customer.setCpf(customerRequest.getCpf());
+			customer.setAddress(customerRequest.getAddress());
+			customer.setEmails(customerRequest.getEmails());
+			customer.setPhones(customerRequest.getPhones());
 			return customerRepository.save(customer);
 		}).orElseThrow(() -> new ResourceNotFoundException("Customer " + id + " not found"));
 	}

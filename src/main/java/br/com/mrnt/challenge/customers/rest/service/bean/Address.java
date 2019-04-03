@@ -6,20 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.mrnt.challenge.customers.rest.service.support.AuditModel;
 
 @Entity
-@Table(name = "adresses")
+@Table(name = "address")
 public class Address extends AuditModel {
 
 	/**
@@ -30,6 +27,7 @@ public class Address extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@NotNull
 	private String postalCode;
 
@@ -47,10 +45,9 @@ public class Address extends AuditModel {
 
 	@Size(max = 255)
 	private String complement;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "customer_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="customer_id", nullable = false)
 	@JsonIgnore
 	private Customer customer;
 
@@ -112,5 +109,19 @@ public class Address extends AuditModel {
 	public void setComplement(String complement) {
 		this.complement = complement;
 	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 
 }
