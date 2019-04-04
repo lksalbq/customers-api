@@ -55,9 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html",
 						"/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/api/auth/**").permitAll()
-				.antMatchers("/api/user/checkUsernameAvailability").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/customers/**").permitAll().anyRequest().authenticated();
+				.permitAll().antMatchers("/api/auth/**").permitAll().antMatchers("/api/user/checkUsernameAvailability")
+				.permitAll().antMatchers(HttpMethod.DELETE, "/api/customers/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/customers/**").permitAll()
+				.antMatchers(HttpMethod.PATCH, "/api/customers/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/customers/**").permitAll()
+				.antMatchers(HttpMethod.PUT, "/api/customers/**").permitAll().anyRequest().authenticated();
 
 		// Add our custom JWT security filter
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

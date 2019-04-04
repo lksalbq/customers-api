@@ -66,27 +66,31 @@ public class CustomersApiApplication implements CommandLineRunner {
 		userRepository.deleteAllInBatch();
 		roleRepository.deleteAllInBatch();
 
-		// Create default address
-		Address address = new Address("71050181", "Guara", "QE 15", "Brasilia", "DF", " ");
+		
+		for(int i=0; i < 10; i++) {			
+			// Create default address
+			Address address = new Address("71050181", "Guara", "QE 15", "Brasilia", "DF", " ");
 
-		// Create default phones numbers
-		Phone p1 = new Phone("30281866", PhoneType.RESIDENTIAL);
-		Phone p2 = new Phone("981006447", PhoneType.CELLPHONE);
-		Set<Phone> phones = new HashSet<Phone>();
-		phones.add(p1);
-		phones.add(p2);
+			// Create default phones numbers
+			Phone p1 = new Phone("30281866", PhoneType.RESIDENTIAL);
+			Phone p2 = new Phone("981006447", PhoneType.CELLPHONE);
+			Set<Phone> phones = new HashSet<Phone>();
+			phones.add(p1);
+			phones.add(p2);
 
-		// Create default email customer
-		Email e1 = new Email("lks.albq@gmail.com");
-		Set<Email> emails = new HashSet<Email>();
-		emails.add(e1);
+			// Create default email customer
+			Email e1 = new Email("lks.albq@gmail.com");
+			Set<Email> emails = new HashSet<Email>();
+			emails.add(e1);
 
-		// Create default customer
-		Customer customer = new Customer("Lucas", "11111111111", address, phones, emails);
-		customer.getAddress().setCustomer(customer);
-		customer.getPhones().forEach((phone) -> phone.setCustomer(customer));
-		customer.getEmails().forEach((email) -> email.setCustomer(customer));
-		customerRepository.save(customer);
+			// Create default customer
+			Customer customer = new Customer("Lucas", String.format("%s%s%s%s%s%s%s%s%s%s%s",i,i,i,i,i,i,i,i,i,i,i).toString(), address, phones, emails);
+			customer.getAddress().setCustomer(customer);
+			customer.getPhones().forEach((phone) -> phone.setCustomer(customer));
+			customer.getEmails().forEach((email) -> email.setCustomer(customer));
+			customerRepository.save(customer);			
+		}
+		
 		
 		// create default roles and users
 
