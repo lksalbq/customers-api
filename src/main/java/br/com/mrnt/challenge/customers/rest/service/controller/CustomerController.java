@@ -2,6 +2,7 @@ package br.com.mrnt.challenge.customers.rest.service.controller;
 
 import java.util.Optional;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
@@ -34,7 +35,7 @@ public class CustomerController {
 	public Page<Customer> retrieveAllCustomers(Pageable pageable) {
 		return customerRepository.findAll(pageable);
 	}
-
+	
 	@GetMapping("/api/customers/{id}")
 	public Customer retrieveCustomer(@PathVariable long id) {
 		Optional<Customer> customer = customerRepository.findById(id);
@@ -44,16 +45,18 @@ public class CustomerController {
 
 		return customer.get();
 	}
-
+	
 	@DeleteMapping("/api/customers/{id}")
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<Object> deleteCustomer(@PathVariable long id) {
 		return customerRepository.findById(id).map(customer -> {
 			customerRepository.delete(customer);
 			return ResponseEntity.ok().build();
 		}).orElseThrow(() -> new ResourceNotFoundException("Customer " + id + " not found"));
 	}
-
+	
 	@PostMapping("/api/customers")
+	@RolesAllowed("ROLE_ADMIN")
 	public Customer createCustomer(@Valid @RequestBody Customer customer) {
 		customer.getAddress().setCustomer(customer);
 		customer.getEmails().forEach((email) -> email.setCustomer(customer));
@@ -61,7 +64,8 @@ public class CustomerController {
 		return customerRepository.save(customer);
 
 	}
-
+	
+	@RolesAllowed("ROLE_ADMIN")
 	@PutMapping("/api/customers/{id}")
 	public Customer updateCustomer(@Valid @RequestBody Customer customerRequest, @PathVariable Long id) {
 		return customerRepository.findById(id).map(customer -> {
