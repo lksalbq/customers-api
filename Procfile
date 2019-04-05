@@ -1,1 +1,1 @@
-web: mvn spring-boot:run -Dspring-boot.run.profiles=prod
+web: java -jar target/customers-rest-service-0.0.1-SNAPSHOT.jar
