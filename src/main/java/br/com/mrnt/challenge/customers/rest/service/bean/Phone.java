@@ -83,4 +83,21 @@ public class Phone extends AuditModel {
 		return serialVersionUID;
 	}
 
+	public void update(Phone p) {
+		this.number = p.getNumber();
+		this.phoneType = p.getPhoneType();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+
+		if (obj instanceof Phone) {
+			Phone p = (Phone) obj;
+			result = p.getNumber() == this.getNumber();
+		}
+
+		return result;
+	}
+
 }

@@ -69,19 +69,21 @@ public class CustomersApiApplication implements CommandLineRunner {
 		
 		for(int i=0; i < 10; i++) {			
 			// Create default address
-			Address address = new Address("71050181", "Guara", "QE 15", "Brasilia", "DF", " ");
+			Address address = new Address("71050181", "Guara", "QE 15", "Brasilia", "DF", "complemento");
 
 			// Create default phones numbers
-			Phone p1 = new Phone("30281866", PhoneType.RESIDENTIAL);
-			Phone p2 = new Phone("981006447", PhoneType.CELLPHONE);
+			Phone p1 = new Phone("6130281866", PhoneType.RESIDENTIAL);
+			Phone p2 = new Phone("61981006447", PhoneType.CELLPHONE);
 			Set<Phone> phones = new HashSet<Phone>();
 			phones.add(p1);
 			phones.add(p2);
 
 			// Create default email customer
 			Email e1 = new Email("lks.albq@gmail.com");
+			Email e2 = new Email("lks.albq@gmail.com");
 			Set<Email> emails = new HashSet<Email>();
 			emails.add(e1);
+			emails.add(e2);
 
 			// Create default customer
 			Customer customer = new Customer("Lucas", String.format("%s%s%s%s%s%s%s%s%s%s%s",i,i,i,i,i,i,i,i,i,i,i).toString(), address, phones, emails);

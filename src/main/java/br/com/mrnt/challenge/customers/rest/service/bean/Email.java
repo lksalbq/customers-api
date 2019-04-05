@@ -64,4 +64,19 @@ public class Email extends AuditModel {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public void update(Email e) {
+		this.address = e.address;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+
+		if (obj instanceof Email) {
+			Email e = (Email) obj;
+			result = e.getAddress() == this.getAddress();
+		}
+
+		return result;
+	}
 }

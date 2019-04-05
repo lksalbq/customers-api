@@ -23,13 +23,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.mrnt.challenge.customers.rest.service.bean.Customer;
+import br.com.mrnt.challenge.customers.rest.service.bean.Phone;
+import br.com.mrnt.challenge.customers.rest.service.repository.AddressRepository;
 import br.com.mrnt.challenge.customers.rest.service.repository.CustomerRepository;
+import br.com.mrnt.challenge.customers.rest.service.repository.EmailRepository;
+import br.com.mrnt.challenge.customers.rest.service.repository.PhoneRepository;
 
 @RestController
 @Validated
 public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired 
+	private AddressRepository addressRepository;
+	
+	@Autowired 
+	private EmailRepository emailRepository;
+	
+	@Autowired 
+	private PhoneRepository phoneRepository;
+	
+	
 
 	@GetMapping("/api/customers")
 	public Page<Customer> retrieveAllCustomers(Pageable pageable) {
@@ -71,9 +86,28 @@ public class CustomerController {
 		return customerRepository.findById(id).map(customer -> {
 			customer.setName(customerRequest.getName());
 			customer.setCpf(customerRequest.getCpf());
-			customer.setAddress(customerRequest.getAddress());
-			customer.setEmails(customerRequest.getEmails());
-			customer.setPhones(customerRequest.getPhones());
+			customer.getAddress().update(customerRequest.getAddress());
+			customer.getEmails().forEach((email) -> customerRequest.getEmails().forEach((e) -> email.update(e)));
+			customer.getPhones().forEach((phone) -> customerRequest.getPhones().forEach((p) -> phone.update(p)));
+			
+			addressRepository.save(customer.getAddress());
+			
+			customer.getPhones().forEach((phone) -> {
+				if (customerRequest.getPhones().contains(phone)) {
+					phoneRepository.delete(phone);
+				}else{
+					phoneRepository.save(phone);
+				}
+			});
+			
+			customer.getEmails().forEach((email) -> {
+				if (customerRequest.getEmails().contains(email)) {
+					emailRepository.delete(email);
+				}else{
+					emailRepository.save(email);
+				}
+			});
+			
 			return customerRepository.save(customer);
 		}).orElseThrow(() -> new ResourceNotFoundException("Customer " + id + " not found"));
 	}

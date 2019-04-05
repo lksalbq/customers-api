@@ -132,4 +132,14 @@ public class Address extends AuditModel {
 		return serialVersionUID;
 	}
 
+	public void update(Address address) {
+		// TODO Auto-generated method stub
+		this.postalCode = address.getPostalCode();
+		this.district = address.getDistrict();
+		this.neighborhood = address.getNeighborhood();
+		this.city = address.getCity();
+		this.federalState = address.getFederalState();
+		this.complement = address.getComplement();
+	}
+
 }
