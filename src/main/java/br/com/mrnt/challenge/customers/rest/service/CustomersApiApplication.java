@@ -102,12 +102,12 @@ public class CustomersApiApplication implements CommandLineRunner {
 		roleRepository.save(roleUser);
 		roleRepository.save(roleAdmin);
 
-		User admin = new User("admin", "12345");
+		User admin = new User("admin", "123456");
 		admin.setRoles(Collections.singleton(roleAdmin));
 		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 		userRepository.save(admin);
 
-		User comum = new User("comum", "12345");
+		User comum = new User("comum", "123456");
 		comum.setRoles(Collections.singleton(roleUser));
 		comum.setPassword(passwordEncoder.encode(comum.getPassword()));
 		userRepository.save(comum);
